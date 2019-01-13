@@ -16,4 +16,4 @@ features:
 - other features will maybe implemented
 
 
-this script is perfect match with the new nightclubs. Now thinking if i will share or not ...
+this script is perfect match with the new nightclubs. Now thinking if i will share or not ... or maybe only share with my folowers and people that encourage me 
