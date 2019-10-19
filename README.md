@@ -14,6 +14,8 @@ features:
 - simple menu for choosing the song you want
 - you can play, pause, stop a song
 - other features will maybe implemented
+- independend dancefloors
+- youtube included (some songs won't play beacause of copyright issues)
 
 
 this script is perfect match with the new nightclubs. 

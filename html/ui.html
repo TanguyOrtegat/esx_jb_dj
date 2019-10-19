@@ -4,10 +4,21 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  	<script src="app.js"></script>
+  	<script src="tubeplayer.js"></script>
+	<script src="app.js"></script>
   	<!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 <body>
+    <div id="nightclubBahamasplayer" style="display: none;"></div>
+    <div id="playernightclubunderground" style="display: none;"></div>
+    <div id="playernightclubUnicorn" style="display: none;"></div>
+	<script type="text/javascript">
+	jQuery(document).ready(function(){
+    jQuery("#nightclubBahamasplayer").tubeplayer();
+    jQuery("#playernightclubunderground").tubeplayer();
+    jQuery("#playernightclubUnicorn").tubeplayer();
+	});
+	</script>
 </body>
 </html>
 
