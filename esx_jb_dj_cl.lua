@@ -11,13 +11,23 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 	end
 end)
--- Fin init ESX
 
-function exitmarkerdancefloor()
-	-- ESX.UI.Menu.CloseAll()
-	-- SendNUIMessage({musiccommand = "pause"})
-	SendNUIMessage({setvolume = 0.0})
-end
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+  	PlayerData = xPlayer
+end)
+
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function(job)
+  PlayerData.job = job
+end)
+
+RegisterNetEvent('esx:setSecondJob')
+AddEventHandler('esx:setSecondJob', function(job)
+  PlayerData.second_job = job
+end)
+-- Fin init ESX
 
 function exitmarkerdjbooth()
 	ESX.UI.Menu.CloseAll()
@@ -52,11 +62,13 @@ AddEventHandler('ft_libs:OnClientReady', function()
 						-- local volume = round((1-number), 2)
 						local number =distance/v.dancefloor.Marker.w
 						local volume = round(((1-number)/10), 2)
-						SendNUIMessage({setvolume = volume})	
+						SendNUIMessage({setvolume = volume, dancefloor = k})	
 					end,
 				},
 				exit = {
-					callback = exitmarkerdancefloor
+					callback = function()
+						SendNUIMessage({setvolume = 0.0, dancefloor = k})	
+					end,
 				},
 			},
 			locations = {
@@ -69,7 +81,7 @@ AddEventHandler('ft_libs:OnClientReady', function()
 		})
 		
 		exports.ft_libs:AddArea("esx_jb_dj_"..k.."_djbooth", {
-			enable = false,
+			enable = true,
 			marker = {
 				weight = v.djbooth.Marker.w,
 				height = v.djbooth.Marker.h,
@@ -82,8 +94,8 @@ AddEventHandler('ft_libs:OnClientReady', function()
 				active = {
 					callback = function()
 						exports.ft_libs:HelpPromt(v.djbooth.HelpPrompt)
-						if IsControlJustPressed(1, 38) and GetLastInputMethod(2) and (GetGameTimer() - GUI.Time) > 150 then
-							OpenDjMenu()
+						if IsControlJustPressed(1, 38) and GetLastInputMethod(2) and ((PlayerData.job ~= nil and PlayerData.job.name == 'bahamas') or (PlayerData.second_job ~= nil and PlayerData.second_job.name == 'bahamas')) and (GetGameTimer() - GUI.Time) > 150 then
+							OpenDjMenu(k)
 							GUI.Time = GetGameTimer()
 						end
 					end,
@@ -103,7 +115,7 @@ AddEventHandler('ft_libs:OnClientReady', function()
 	end
 end)
 
-function OpenDjMenu()
+function OpenDjMenu(dancefloor)
 	local elements = {}
 	table.insert(elements, {label = 'Résumer la musique', value = 'play_music'})
 	table.insert(elements, {label = 'Pause la musique', value = 'pause_music'})
@@ -111,7 +123,6 @@ function OpenDjMenu()
 	for k,v in pairs (Config.Songs) do
 		table.insert(elements, {label = v.label, value = v.song})
 	end
-	
 	ESX.UI.Menu.Open(
 		'default', GetCurrentResourceName(), 'menuperso_gpsrapide',
 		{
@@ -121,13 +132,13 @@ function OpenDjMenu()
 		},
 		function(data2, menu2)
 			if data2.current.value == "pause_music" then
-				TriggerServerEvent('esx_jb_dj:setcommand', "pause", nil)
+				TriggerServerEvent('esx_jb_dj:setcommand', "pause", "", dancefloor)
 			elseif data2.current.value == "play_music" then
-				TriggerServerEvent('esx_jb_dj:setcommand', "play", nil)
+				TriggerServerEvent('esx_jb_dj:setcommand', "play", "", dancefloor)
 			elseif data2.current.value == "stop_music" then
-				TriggerServerEvent('esx_jb_dj:setcommand', "stop", nil)
+				TriggerServerEvent('esx_jb_dj:setcommand', "stop", "", dancefloor)
 			else
-				TriggerServerEvent('esx_jb_dj:setcommand', "playsong", data2.current.value)
+				TriggerServerEvent('esx_jb_dj:setcommand', "playsong", data2.current.value, dancefloor)
 			end
 		end,
 		function(data2, menu2)
@@ -137,8 +148,9 @@ function OpenDjMenu()
 end
 
 RegisterNetEvent('esx_jb_dj:setmusicforeveryone')
-AddEventHandler('esx_jb_dj:setmusicforeveryone', function(command, songname)
-	SendNUIMessage({musiccommand = command, songname = songname})
+AddEventHandler('esx_jb_dj:setmusicforeveryone', function(command, songname, dancefloor)
+	-- print(dancefloor)
+	SendNUIMessage({musiccommand = command, songname = songname, dancefloor = dancefloor})
 end)
 
 function round(num, dec)
