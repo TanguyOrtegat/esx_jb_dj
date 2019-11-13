@@ -16,6 +16,7 @@ features:
 - other features will maybe implemented
 - independend dancefloors
 - youtube included (some songs won't play beacause of copyright issues)
+- removed songs playing in background in unicorn
 
 
 this script is perfect match with the new nightclubs. 
