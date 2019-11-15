@@ -100,7 +100,7 @@ AddEventHandler('ft_libs:OnClientReady', function()
 				active = {
 					callback = function()
 						exports.ft_libs:HelpPromt(v.djbooth.HelpPrompt)
-						if IsControlJustPressed(1, 38) and GetLastInputMethod(2) and ((PlayerData.job ~= nil and PlayerData.job.name == 'bahamas') or (PlayerData.second_job ~= nil and PlayerData.second_job.name == 'bahamas')) and (GetGameTimer() - GUI.Time) > 150 then
+						if IsControlJustPressed(1, 38) and GetLastInputMethod(2) and (GetGameTimer() - GUI.Time) > 150 then
 							OpenDjMenu(k)
 							GUI.Time = GetGameTimer()
 						end
