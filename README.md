@@ -20,3 +20,6 @@ features:
 
 
 this script is perfect match with the new nightclubs. 
+
+
+more info here:https://forum.fivem.net/t/release-esx-jb-dj/287462 
